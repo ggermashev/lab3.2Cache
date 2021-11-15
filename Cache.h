@@ -21,7 +21,7 @@ public:
 template <class K, class T>
 class ICache
 {
-private:
+
 public:
 	virtual int HashFunc1(K key) = 0;
 	virtual int HashFunc2(K key) = 0;
@@ -31,8 +31,6 @@ public:
 	virtual void Rehash() = 0;
 	//virtual void Resize() = 0;
 	//virtual T GetElem(K key) = 0;
-
-public:
 
 };
 
@@ -51,17 +49,17 @@ private:
 	ArrayVector<int>* keysOfLast;
 	int minCount;
 	const double level = 0.75;
+	void AddToCache(CacheNode<K,T>* node) override;
+	void Rehash() override;
+	int HashFunc1(int key) override ;
+	int HashFunc2(int key) override;
 	//bool CheckElement(int key) override;
 public:
 	
-	int HashFunc1(int key) override ;
-	int HashFunc2(int key) override;
 	IntCache(int sz);
 	void Add(K key, T value);
-	void AddToCache(CacheNode<K,T>* node) override;
 	T GetElem(int key);
 	void Remove(T key) override;
-	void Rehash() override;
 	bool Check(int key);
 
 	~IntCache();
