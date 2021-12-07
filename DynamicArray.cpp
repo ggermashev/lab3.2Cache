@@ -1,3 +1,4 @@
+#pragma once
 #include "DynamicArray.h"
 #include <iostream>
 
@@ -58,7 +59,7 @@ int DynamicArray<T>::GetSize() {
 template <class T>
 void DynamicArray<T>::Set(T value, int i) {
 	if (i >= size) {
-		std::cout << "Out of range if Set: " << i << std::endl;
+		std::cout << "Out of range in Set: " << i << std::endl;
 		return;
 	}
 	elem[i] = value;

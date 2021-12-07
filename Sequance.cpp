@@ -1,3 +1,4 @@
+#pragma once
 #include "Sequance.h"
 #include <iostream>
 #include <math.h>
@@ -7,21 +8,25 @@
 template <class T>
 ArrayVector<T>::ArrayVector(T* item, int n) {
 	items = new DynamicArray<T> (item,n);
+	count = n;
  }
 
 template <class T> 
 ArrayVector<T>::ArrayVector() {
 	items = new DynamicArray<T>(0);
+	count = 0;
 }
 
 template <class T>
 ArrayVector<T>::ArrayVector(int n) {
 	items = new DynamicArray<T>(n);
+	count = n;
 }
 
 template <class T> 
 ArrayVector<T>::ArrayVector(const ArrayVector<T>& arrVec) {
 	items = new DynamicArray<T>(*(arrVec.items)) ;
+	count = arrVec->count;
 }
 
 
@@ -33,7 +38,7 @@ T  ArrayVector<T>::GetFirst() {
 
 template <class T> 
 T ArrayVector<T>::GetLast() {
-	return items->Get(items->GetSize() - 1);
+	return items->Get(count - 1);
 }
 
 template <class T> 
@@ -69,21 +74,29 @@ ArrayVector<T>* ArrayVector<T>::GetSubVector(int i, int j) {
 
 template <class T> 
 int ArrayVector<T>::GetLength() {
-	return items->GetSize();
+	return count;
 }
 
+template <class T>
+int ArrayVector<T>::GetSize() {
+	return items->GetSize();
+}
 
 //операции
 template <class T> 
 void ArrayVector<T>::Append(T item) {
-	items->Resize(items->GetSize() + 1);
-	items->Set(item, items->GetSize() - 1);
+	if (GetLength() == GetSize())
+		items->Resize(1 + items->GetSize() * 2);
+	count++;
+	items->Set(item, count-1);
 }
 
 template <class T> 
 void ArrayVector<T>::Prepend(T item) {
-	items->Resize(items->GetSize() + 1);
-	for (int i = items->GetSize() - 1; i > 0; i--) {
+	if (GetLength() == GetSize())
+		items->Resize(1 + items->GetSize() * 2);
+	count++;
+	for (int i = count - 1; i > 0; i--) {
 		items->Set(items->Get(i - 1), i);
 	}
 	items->Set(item, 0);
@@ -91,23 +104,36 @@ void ArrayVector<T>::Prepend(T item) {
 
 template <class T> 
 void ArrayVector<T>::InsertAt(T item, int i) {
-	try {
-		items->Resize(items->GetSize() + 1);
-		for (int k = items->GetSize() - 1; k >= i; k--) {
+	//try {
+		if (GetLength() == GetSize())
+			items->Resize(items->GetSize() * 2 + 1);
+		count++;
+		for (int k = count - 1; k > i; k--) {
 			items->Set(items->Get(k - 1), k);
 		}
 		items->Set(item, i);
-		throw i;
-	}
+		//throw i;
+	//}
+	/*
 	catch (int i) {
 		std::cout << "Out of range in InsertAt: " << i << std::endl;
 	}
+	*/
 }
 
 template <class T>
 void ArrayVector<T>::PopBack()
 {
-	items->Resize(GetLength() - 1);
+	count--;
+	if (GetLength() > 0)
+		if (GetSize() / GetLength() > 2)
+			items->Resize(GetLength());
+}
+
+template <class T>
+void ArrayVector<T>::Resize(int newsz_)
+{
+	items->Resize(newsz_);
 }
 
 template <class T>
@@ -121,7 +147,7 @@ void ArrayVector<T>::Clear()
 template <class T>
 ArrayVector<T>* ArrayVector<T>::Concat(ArrayVector<T>* arrVec) {
 	ArrayVector<T>* newVec = new ArrayVector<T>;
-	for (int i = 0; i < this->items->GetSize(); i++) {
+	for (int i = 0; i < count; i++) {
 		newVec->Append(this->Get(i));
 	}
 	for (int i = 0; i < arrVec->GetLength(); i++) {
@@ -400,7 +426,7 @@ T ListVector<T>::GetLast() {
 
 template <class T>
 T ListVector<T>::Get(int i) {
-
+	if (!items) return NULL;
 	return items->Get(i);
 }
 
@@ -424,6 +450,12 @@ void ListVector<T>::Append(T item) {
 	items->Append(item);
 }
 
+
+template <class T>
+void ListVector<T>::Set(T item, int i) {
+	items->Set(item, i);
+}
+
 template <class T>
 void ListVector<T>::Prepend(T item) {
 	items->Prepend(item);
@@ -435,14 +467,17 @@ void ListVector<T>::InsertAt(T item, int i) {
 }
 
 template <class T>
+void ListVector<T>::Remove(int i_)
+{
+	items->Remove(i_);
+}
+
+template <class T>
 ListVector<T>* ListVector<T>::Concat(ListVector<T>* arrVec) {
 	LinkedList<T> ptr = items->Concat(arrVec->items);
 	*items = ptr;
 	return this;
 }
-
-
-
 
 
 

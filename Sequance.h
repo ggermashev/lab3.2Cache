@@ -26,14 +26,14 @@ template <class T>
 class ArrayVector : Vector<T> {
 private:
 	DynamicArray<T>* items;
-
+	int count;
 public:
 	//создание
 	ArrayVector(T* item, int n);
 	ArrayVector();
 	ArrayVector(int n);
 	ArrayVector(const ArrayVector<T>& arrVec);
-	~ArrayVector() { Clear(); return; }
+	//~ArrayVector() { if (this )Clear(); return; }
 	//декомпозиция
 	T GetFirst();
 	T GetLast();
@@ -41,12 +41,14 @@ public:
 	T* GetIterator(int i);
 	ArrayVector<T>* GetSubVector(int i, int j);
 	int GetLength();
+	int GetSize();
 	//операции
 	void Append(T item);
 	void Prepend(T item);
 	void Set(T item, int i);
 	void InsertAt(T item, int i);
 	void PopBack();
+	void Resize(int newzs);
 	ArrayVector<T>* Concat(ArrayVector<T>* arrVec);
 	void Clear();
 	//доп операции
@@ -74,7 +76,7 @@ public:
 	ListVector(T* item, int n);
 	ListVector();
 	ListVector(const ListVector<T>& listVec);
-	~ListVector() { Clear(); return; }
+	//~ListVector() { Clear(); return; }
 	//декомпозиция
 	T GetFirst();
 	T GetLast();
@@ -85,6 +87,8 @@ public:
 	void Append(T item);
 	void Prepend(T item);
 	void InsertAt(T item, int i);
+	void Remove(int i);
+	void Set(T item, int i);
 	ListVector<T>* Concat(ListVector<T>* arrVec);
 	void Clear();
 	//доп операции

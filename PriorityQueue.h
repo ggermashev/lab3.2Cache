@@ -1,7 +1,7 @@
 # pragma once
 
 #include "Sequance.h"
-
+#include "Dictionary.h"
 
 template <class K, class T>
 class PairQ
@@ -20,13 +20,30 @@ private:
 	ArrayVector<PairQ<K,T>*>* pair;
 	//bool cmp(PairQ<K,T> el1,PairQ<K,T> el2);
 	void swap(PairQ<K, T>* el1, PairQ<K, T>* el2);
+	int BinSearch(K key_, T priority, int l = 0, int r = -11);
 public:
 	PQueue();
 	void Add(K elem, T priority);
-	void PopBack(T elem);
-	T GetMinValue();
-	void Set(K elem, T priority);
-	
+	void PopBack();
+	K GetMinValue();
+	void Set(K elem, T time, T priority);
+	void Clear();
+	~PQueue();
+};
+
+template <class K, class T>
+class PQueueBin
+{
+private:
+	DictionaryBin<K,T>* pair;
+public:
+	PQueueBin();
+	void Add(T elem, K priority);
+	void PopBack();
+	K GetMinValue();
+	void Set(T elem, K time, K priority);
+	void Clear();
+	~PQueueBin();
 };
 
 template <class K, class T>

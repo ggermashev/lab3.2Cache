@@ -32,6 +32,7 @@ public:
 	void Append(T item);
 	void Prepend( T item );
 	void InsertAt(T item, int i);
+	void Remove(int i_);
 	LinkedList<T> Concat(LinkedList<T>* list);
 	void Clear();
 

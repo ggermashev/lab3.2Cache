@@ -1,0 +1,21 @@
+cache1: 34637 ||10000 || dict1:2052
+cache2: 32882 ||10000 || dict2:13
+cache1: 24841 ||10000 || dict1:1728
+cache2: 23554 ||10000 || dict2:18
+cache1: 8125 ||10000 || dict1:1416
+cache2: 7363 ||10000 || dict2:15
+cache1: 35326 ||10000 || dict1:2345
+cache2: 33382 ||10000 || dict2:13
+cache1: 35749 ||10000 || dict1:2255
+cache2: 33696 ||10000 || dict2:11
+cache1: 24 ||10000 || dict1:966
+cache2: 28 ||10000 || dict2:9
+cache1: 26 ||10000 || dict1:1142
+hashtable: 7 || Cache: 6 || cache2: 1 || dict:2 -- 1000
+hashtable: 57 || Cache: 97 || cache2: 94 || dict:23 -- 10000
+hashtable: 230 || Cache: 1163 || cache2: 1131 || dict:100 -- 100000
+hashtable: 2346 || Cache: 14330 || cache2: 13795 || dict:1104 --10^6
+n > size::
+hashtable: 0 || Cache: 9 || cache2: 17 || dict:1 -- 1000
+hashtable: 0 || Cache: 71 || cache2: 75 || dict:8 -- 10000
+hashtable: 0 || Cache: 32051 || cache2: 1332 || dict:132 --100000

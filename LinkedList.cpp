@@ -68,6 +68,7 @@ T LinkedList<T>::Get(int i) {
 			ptr = ptr->next;
 			j++;
 		}
+		if (!ptr) return NULL;
 		return ptr->data;
 		throw i;
 	}
@@ -185,12 +186,15 @@ void LinkedList<T>::Prepend(T item) {
 		head = ptr;
 		tail = ptr;
 		size++;
+		ptr->next = nullptr;
+		ptr->prev = nullptr;
 		return;
 	}
 	Node<T>* ptr = new Node<T>;
 	ptr->data = item;
 	ptr->next = head;
 	head->prev = ptr;
+	ptr->prev = nullptr;
 	head = ptr;
 	size++;
 }
@@ -225,6 +229,35 @@ void LinkedList<T>::InsertAt(T item, int i) {
 	}
 }
 
+template <class T>
+void LinkedList<T>::Remove(int i_)
+{
+	if (i_ >= size) return;
+	Node<T>* ptr = head;
+	for (int i = 0; i < i_; i++)
+	{
+		ptr = ptr->next;
+	}
+	if (ptr == head)
+	{
+		head = ptr->next;
+		delete ptr;
+	}
+	else if (ptr == tail)
+	{
+		tail = ptr->prev;
+		delete ptr;
+	}
+	else
+	{
+		ptr->prev->next = ptr->next;
+		ptr->next->prev = ptr->prev;
+		delete ptr;
+	}
+	size--;
+	return;
+}
+
 template <class T> 
 LinkedList<T> LinkedList<T>::Concat(LinkedList<T>* list) {
 	LinkedList<T> newlist(*this) ;
@@ -257,6 +290,7 @@ void LinkedList<T>::Clear()
 		ptr = ptr->next;
 		delete last;
 	}
+	delete ptr;
 	return;
 }
 
